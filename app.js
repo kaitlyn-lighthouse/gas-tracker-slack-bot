@@ -1,5 +1,6 @@
 // Require the Bolt package (github.com/slackapi/bolt)
 const { App } = require("@slack/bolt");
+const axios = require('axios').default;
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -12,7 +13,12 @@ const app = new App({
 app.command('/gas', async ({ ack, payload, context, respond }) => {
   // Acknowledge the command request
   await ack();
-  console.log(payload);
+  try {
+    const gas = await axios.get("https://api.etherscan.io/api?module=gastracker&action=gasoracle");
+    console.log(gas.data);
+  } catch (error) {
+    console.error(error);
+  }
 
   await respond("Hello world!")
 });
