@@ -9,7 +9,13 @@ const app = new App({
 
 
 // All the room in the world for your code
+app.command('/gas', async ({ ack, payload, context, respond }) => {
+  // Acknowledge the command request
+  await ack();
+  console.log(payload);
 
+  await respond("Hello world!")
+});
 
 
 (async () => {
